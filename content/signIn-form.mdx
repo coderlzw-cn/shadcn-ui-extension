@@ -1,0 +1,550 @@
+---
+title: SignInForm 登录表单
+description: 一个功能强大的通用表单组件，支持多种输入类型、表单验证和 OAuth 登录
+---
+
+
+import {ComplexForm, LoginForm, RegisterForm} from "@/components/extensions/signInForm/example";
+
+# SignInForm 登录表单
+
+`SignInForm` 是一个基于 React Hook Form 和 Zod 的通用表单组件，提供了完整的表单验证、多种输入类型支持和 OAuth 登录功能。
+
+## 特性
+
+- ✅ **类型安全**: 基于 TypeScript 和 Zod 的完整类型推断
+- ✅ **表单验证**: 内置 Zod 验证器，支持复杂验证规则
+- ✅ **多种输入类型**: 支持文本、邮箱、密码、数字、选择器、开关、复选框、单选框等
+- ✅ **OAuth 登录**: 内置第三方登录支持
+- ✅ **响应式设计**: 适配各种屏幕尺寸
+- ✅ **无障碍支持**: 完整的 ARIA 标签和键盘导航
+- ✅ **自定义样式**: 支持 Tailwind CSS 类名自定义
+- ✅ **模块化设计**: 字段渲染逻辑独立，便于维护和扩展
+
+## 示例
+
+### 登录表单
+<LoginForm />
+
+### 注册表单
+<RegisterForm />
+
+### 复杂表单
+<ComplexForm />
+
+## API 参考
+
+### SignInForm Props
+
+| 属性 | 类型 | 默认值 | 描述 |
+|------|------|--------|------|
+| `formFields` | `FormField<T>[]` | - | 表单字段配置数组 |
+| `formSchema` | `T` | - | Zod 验证模式 |
+| `onSubmit` | `(data: InferFormData<T>) => void` | - | 表单提交回调函数 |
+| `title` | `string` | - | 表单标题 |
+| `subTitle` | `string` | - | 表单副标题 |
+| `submitButtonText` | `string` | `"Submit"` | 提交按钮文本 |
+| `className` | `string` | - | 自定义 CSS 类名 |
+| `oauth` | `OAuthConfig[]` | - | OAuth 登录配置 |
+| `footer` | `React.ReactNode` | - | 表单底部内容 |
+| `initialData` | `Partial<InferFormData<T>>` | - | 初始表单数据 |
+
+### FormField 配置
+
+| 属性 | 类型 | 描述 |
+|------|------|------|
+| `name` | `Path<InferFormData<T>>` | 字段名称（必须与 schema 中的字段名匹配） |
+| `label` | `string` | 字段标签 |
+| `type` | `InputType` | 输入类型 |
+| `placeholder` | `string` | 占位符文本 |
+| `defaultValue` | `InferFieldValue<T, K>` | 默认值 |
+| `options` | `Option[]` | 选项数组（用于 select、radio 类型） |
+| `description` | `string` | 字段描述 |
+| `checkboxText` | `string` | 单个复选框的文本（当 type 为 checkbox 且没有 options 时使用） |
+| `required` | `boolean` | 是否为必填字段 |
+| `minLength` | `number` | 最小字符长度（用于文本输入） |
+| `maxLength` | `number` | 最大字符长度（用于文本输入） |
+| `min` | `number` | 最小值（用于数字、日期输入） |
+| `max` | `number` | 最大值（用于数字、日期输入） |
+| `step` | `number` | 步长（用于数字输入） |
+| `pattern` | `string` | 正则表达式模式（用于文本输入验证） |
+
+### 支持的输入类型
+
+| 类型 | 描述 | 示例 |
+|------|------|------|
+| `text` | 文本输入 | 用户名、姓名 |
+| `email` | 邮箱输入 | 邮箱地址 |
+| `password` | 密码输入 | 密码、确认密码 |
+| `number` | 数字输入 | 年龄、数量 |
+| `textarea` | 多行文本 | 个人简介、评论 |
+| `select` | 下拉选择 | 性别、兴趣爱好 |
+| `switch` | 开关 | 订阅通知 |
+| `checkbox` | 复选框 | 同意条款、多选兴趣 |
+| `radio` | 单选框 | 性别选择 |
+| `date` | 日期选择 | 出生日期 |
+| `url` | URL 输入 | 个人网站 |
+
+## 使用示例
+
+### 基础登录表单
+
+```tsx
+import { SignInForm, FormField } from "@/components/extensions/signInForm/signInForm";
+import z from "zod";
+
+const loginSchema = z.object({
+  email: z.string().email("请输入有效的邮箱地址"),
+  password: z.string().min(8, "密码至少需要8个字符")
+});
+
+const loginFields: FormField<typeof loginSchema>[] = [
+  {
+    name: "email",
+    label: "邮箱",
+    type: "email",
+    placeholder: "请输入您的邮箱",
+    description: "请输入您的邮箱地址",
+    required: true,
+    maxLength: 100,
+    defaultValue: "test@test.com"
+  },
+  {
+    name: "password",
+    label: "密码",
+    type: "password",
+    placeholder: "请输入您的密码",
+    description: "密码至少需要8个字符",
+    required: true,
+    minLength: 8,
+    maxLength: 50,
+    defaultValue: "12345678"
+  }
+];
+
+export function LoginForm() {
+  return (
+    <SignInForm
+      formFields={loginFields}
+      formSchema={loginSchema}
+      onSubmit={(values) => console.log(values)}
+      title="登录"
+      subTitle="登录您的账户"
+      submitButtonText="登录"
+      className="w-full max-w-md mx-auto"
+    />
+  );
+}
+```
+
+### 带 OAuth 的注册表单
+
+```tsx
+const oauthConfig = [
+  {
+    name: "Google",
+    icon: <GoogleIcon />,
+    onClick: () => console.log("Google 登录")
+  },
+  {
+    name: "Apple",
+    icon: <AppleIcon />,
+    onClick: () => console.log("Apple 登录")
+  }
+];
+
+<SignInForm
+  formFields={registerFields}
+  formSchema={registerSchema}
+  onSubmit={handleSubmit}
+  title="创建账户"
+  oauth={oauthConfig}
+  footer={
+    <div className="text-center text-sm">
+      已有账户？ <Button variant="link">立即登录</Button>
+    </div>
+  }
+/>
+```
+
+### 复杂表单示例
+
+```tsx
+const complexSchema = z.object({
+  name: z.string().min(2, "姓名至少需要2个字符"),
+  email: z.string().email("请输入有效的邮箱地址"),
+  age: z.number().min(18, "年龄必须大于18岁"),
+  gender: z.string().min(1, "请选择性别"),
+  interests: z.array(z.string()).min(1, "请至少选择一个兴趣"),
+  bio: z.string().min(10, "个人简介至少需要10个字符"),
+  newsletter: z.boolean()
+});
+
+const complexFields: FormField<typeof complexSchema>[] = [
+  {
+    name: "name",
+    label: "姓名",
+    type: "text",
+    placeholder: "请输入您的姓名",
+    description: "请输入您的真实姓名",
+    required: true,
+    minLength: 2,
+    maxLength: 50,
+    defaultValue: "张三"
+  },
+  {
+    name: "email",
+    label: "邮箱",
+    type: "email",
+    placeholder: "请输入邮箱地址",
+    description: "用于接收重要通知",
+    required: true,
+    maxLength: 100,
+    defaultValue: "zhangsan@qq.com"
+  },
+  {
+    name: "age",
+    label: "年龄",
+    type: "number",
+    placeholder: "请输入年龄",
+    description: "必须年满18岁",
+    required: true,
+    min: 18,
+    max: 120,
+    step: 1,
+    defaultValue: 20
+  },
+  {
+    name: "gender",
+    label: "性别",
+    type: "radio",
+    options: [
+      { label: "男", value: "male" },
+      { label: "女", value: "female" },
+      { label: "其他", value: "other" }
+    ],
+    description: "请选择您的性别",
+    required: true,
+    defaultValue: "male"
+  },
+  {
+    name: "interests",
+    label: "兴趣爱好",
+    type: "checkbox",
+    options: [
+      { label: "技术", value: "tech" },
+      { label: "音乐", value: "music" },
+      { label: "运动", value: "sports" },
+      { label: "阅读", value: "reading" },
+      { label: "旅行", value: "travel" },
+      { label: "摄影", value: "photography" }
+    ],
+    description: "请选择您感兴趣的内容（可多选）",
+    required: true,
+    defaultValue: ["tech", "music"]
+  },
+  {
+    name: "bio",
+    label: "个人简介",
+    type: "textarea",
+    placeholder: "请简单介绍一下自己",
+    description: "至少需要10个字符",
+    required: true,
+    minLength: 10,
+    maxLength: 500,
+    defaultValue: "我是一个热爱技术、音乐和运动的年轻人"
+  },
+  {
+    name: "newsletter",
+    label: "订阅新闻通讯",
+    type: "switch",
+    description: "接收最新的产品更新和新闻",
+    defaultValue: true
+  },
+  {
+    name: "notifications",
+    label: "通知设置",
+    type: "checkbox",
+    checkboxText: "接收重要通知和提醒",
+    description: "您可以随时在设置中关闭此功能",
+    defaultValue: true
+  }
+];
+```
+
+## 输入限制
+
+`SignInForm` 支持多种输入限制属性，提供更好的用户体验和数据验证：
+
+### 文本输入限制
+
+```tsx
+{
+  name: "username",
+  label: "用户名",
+  type: "text",
+  required: true,
+  minLength: 3,        // 最小3个字符
+  maxLength: 20,       // 最大20个字符
+  pattern: "^[a-zA-Z0-9_]+$"  // 只允许字母、数字和下划线
+}
+```
+
+### 数字输入限制
+
+```tsx
+{
+  name: "age",
+  label: "年龄",
+  type: "number",
+  required: true,
+  min: 18,             // 最小值18
+  max: 120,            // 最大值120
+  step: 1              // 步长为1
+}
+```
+
+### 密码输入限制
+
+```tsx
+{
+  name: "password",
+  label: "密码",
+  type: "password",
+  required: true,
+  minLength: 8,        // 最小8个字符
+  maxLength: 50,       // 最大50个字符
+  pattern: "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d@$!%*?&]{8,}$"  // 包含大小写字母和数字
+}
+```
+
+### 手机号码验证
+
+```tsx
+{
+  name: "phone",
+  label: "手机号码",
+  type: "text",
+  required: true,
+  minLength: 11,
+  maxLength: 11,
+  pattern: "^1[3-9]\\d{9}$"  // 中国手机号码格式
+}
+```
+
+### 多选复选框
+
+```tsx
+{
+  name: "interests",
+  label: "兴趣爱好",
+  type: "checkbox",
+  options: [
+    { label: "技术", value: "tech" },
+    { label: "音乐", value: "music" },
+    { label: "运动", value: "sports" },
+    { label: "阅读", value: "reading" },
+    { label: "旅行", value: "travel" }
+  ],
+  required: true
+}
+```
+
+**注意**: 当 `checkbox` 类型有 `options` 时，会渲染多个复选框支持多选；没有 `options` 时，渲染单个复选框。
+
+### 单个复选框自定义文本
+
+```tsx
+{
+  name: "agreeToTerms",
+  label: "服务条款",
+  type: "checkbox",
+  checkboxText: "我已阅读并同意《服务条款》和《隐私政策》",
+  description: "必须同意服务条款才能继续",
+  required: true
+}
+```
+
+使用 `checkboxText` 属性可以为单个复选框设置自定义文本，而不使用字段的 `label`。
+
+## 表单验证
+
+`SignInForm` 使用 Zod 进行表单验证，支持以下验证功能：
+
+- **基础验证**: 必填、长度、格式等
+- **自定义验证**: 使用 `refine` 方法进行复杂验证
+- **交叉字段验证**: 验证多个字段之间的关系
+- **实时验证**: 输入时实时显示验证错误
+- **HTML5 验证**: 结合浏览器原生验证和自定义验证
+
+```tsx
+const schema = z.object({
+  password: z.string().min(8, "密码至少需要8个字符"),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "密码不匹配",
+  path: ["confirmPassword"]
+});
+```
+
+## 扩展和自定义
+
+### 添加新的输入类型
+
+如果需要添加新的输入类型，可以在 `render.tsx` 文件中扩展 `renderField` 函数：
+
+```tsx
+case "custom":
+  return <CustomInput {...fieldProps} />;
+```
+
+### 自定义字段渲染
+
+可以通过修改 `renderField` 函数来自定义特定字段的渲染逻辑：
+
+```tsx
+// 在 renderField 函数中添加自定义逻辑
+if (formField.name === "specialField") {
+  return <SpecialFieldRenderer {...fieldProps} />;
+}
+```
+
+## 故障排除
+
+### 常见问题
+
+1. **类型错误**: 确保字段名称与 Zod schema 中的字段名完全匹配
+2. **验证不生效**: 检查 Zod schema 的配置和 `refine` 方法的使用
+3. **样式问题**: 确保 Tailwind CSS 正确配置
+4. **OAuth 不显示**: 检查 `oauth` 配置数组是否正确
+
+### 调试技巧
+
+- 使用浏览器开发者工具检查表单元素
+- 在 `onSubmit` 回调中添加 `console.log` 查看表单数据
+- 检查 Zod 验证错误信息
+- 验证 TypeScript 类型推断是否正确
+
+## 类型系统
+
+组件使用 TypeScript 和 Zod 提供完整的类型安全：
+
+### 类型推断
+
+```tsx
+// 从 Zod schema 自动推断表单数据类型
+export type InferFormData<T extends ZodObject<ZodRawShape>> = z.infer<T>;
+
+// 字段名称类型
+type InferFieldNames<T extends ZodObject<ZodRawShape>> = keyof InferFormData<T> & string;
+
+// 字段值类型
+type InferFieldValue<T extends ZodObject<ZodRawShape>, K extends InferFieldNames<T>> = InferFormData<T>[K];
+```
+
+### 类型安全的使用
+
+```tsx
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8)
+});
+
+// TypeScript 会自动推断字段类型
+const fields: FormField<typeof schema>[] = [
+  {
+    name: "email", // 类型安全，必须是 schema 中的字段
+    type: "email",
+    // ...
+  }
+];
+```
+
+## 无障碍支持
+
+组件内置了完整的无障碍支持：
+
+- 所有输入字段都有对应的 `aria-label`
+- 表单错误信息通过 `aria-describedby` 关联
+- 支持键盘导航
+- 语义化的 HTML 结构
+- 屏幕阅读器友好的标签和描述
+
+## 样式自定义
+
+组件使用 Tailwind CSS，支持通过 `className` 属性进行样式自定义：
+
+```tsx
+<SignInForm
+  className="w-full max-w-md mx-auto bg-white shadow-lg rounded-lg"
+  // ... 其他属性
+/>
+```
+
+### 默认样式
+
+组件使用以下默认样式类：
+
+- 表单容器: `space-y-5 px-6`
+- 字段容器: `w-full`
+- 提交按钮: `w-full cursor-pointer`
+- OAuth 分隔线: 使用相对定位和伪元素创建
+
+## 最佳实践
+
+### 1. 使用有意义的字段名称
+确保字段名称与业务逻辑一致，便于维护和理解。
+
+### 2. 提供清晰的标签和描述
+帮助用户理解每个字段的用途和验证要求。
+
+```tsx
+{
+  name: "email",
+  label: "邮箱地址",
+  description: "用于登录和接收重要通知",
+  placeholder: "请输入您的邮箱地址"
+}
+```
+
+### 3. 合理设置验证规则
+既保证数据质量，又不过于严格影响用户体验。
+
+### 4. 优化用户体验
+- 使用适当的输入类型
+- 提供有意义的占位符文本
+- 设置合理的默认值
+- 添加字段描述
+
+### 5. 处理表单提交
+在 `onSubmit` 回调中正确处理表单数据：
+
+```tsx
+const handleSubmit = (data: InferFormData<typeof schema>) => {
+  // 验证通过后的处理逻辑
+  console.log("表单数据:", data);
+
+  // 发送到服务器
+  fetch("/api/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+};
+```
+
+### 6. 错误处理
+结合 Zod 验证和自定义错误处理：
+
+```tsx
+const schema = z.object({
+  email: z.string().email("请输入有效的邮箱地址"),
+  password: z.string().min(8, "密码至少需要8个字符")
+}).refine((data) => {
+  // 自定义验证逻辑
+  return someCustomValidation(data);
+}, {
+  message: "自定义验证失败",
+  path: ["email"]
+});
+```

@@ -1,0 +1,287 @@
+---
+title: 组件展示
+description: "查看所有基础组件的使用示例"
+---
+
+# 🎨 组件展示
+
+这里展示了组件库中所有基础组件的使用示例。
+
+## 按钮组件
+
+import { Button } from "@/components/ui/button"
+
+<div className="flex flex-wrap gap-4 p-4">
+  <Button>默认按钮</Button>
+  <Button variant="secondary">次要按钮</Button>
+  <Button variant="destructive">危险按钮</Button>
+  <Button variant="outline">轮廓按钮</Button>
+  <Button variant="ghost">幽灵按钮</Button>
+  <Button variant="link">链接按钮</Button>
+</div>
+
+## 卡片组件
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+  <Card>
+    <CardHeader>
+      <CardTitle>卡片标题</CardTitle>
+      <CardDescription>这是一个卡片组件的示例</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>卡片内容区域，可以放置任何内容。</p>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>功能卡片</CardTitle>
+      <CardDescription>展示不同的功能特性</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <div className="space-y-2">
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+          <span className="text-sm">功能特性 1</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+          <span className="text-sm">功能特性 2</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+          <span className="text-sm">功能特性 3</span>
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+  
+  <Card>
+    <CardHeader>
+      <CardTitle>交互卡片</CardTitle>
+      <CardDescription>支持用户交互的卡片</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <Button className="w-full">点击操作</Button>
+    </CardContent>
+  </Card>
+</div>
+
+## 表单组件
+
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Checkbox } from "@/components/ui/checkbox"
+import { Switch } from "@/components/ui/switch"
+
+<div className="space-y-6 p-4 max-w-md">
+  <div className="space-y-2">
+    <Label htmlFor="name">姓名</Label>
+    <Input id="name" placeholder="请输入您的姓名" />
+  </div>
+  
+  <div className="space-y-2">
+    <Label htmlFor="email">邮箱</Label>
+    <Input id="email" type="email" placeholder="请输入邮箱地址" />
+  </div>
+  
+  <div className="space-y-2">
+    <Label htmlFor="message">留言</Label>
+    <Textarea id="message" placeholder="请输入您的留言" />
+  </div>
+  
+  <div className="space-y-2">
+    <Label>选择类型</Label>
+    <Select>
+      <SelectTrigger>
+        <SelectValue placeholder="请选择类型" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="type1">类型一</SelectItem>
+        <SelectItem value="type2">类型二</SelectItem>
+        <SelectItem value="type3">类型三</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+  
+  <div className="flex items-center space-x-2">
+    <Checkbox id="agree" />
+    <Label htmlFor="agree">我同意服务条款</Label>
+  </div>
+  
+  <div className="flex items-center space-x-2">
+    <Switch id="notifications" />
+    <Label htmlFor="notifications">接收通知</Label>
+  </div>
+</div>
+
+## 反馈组件
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
+import { Skeleton } from "@/components/ui/skeleton"
+
+<div className="space-y-6 p-4">
+  <div className="space-y-4">
+    <Alert>
+      <AlertTitle>信息提示</AlertTitle>
+      <AlertDescription>
+        这是一个信息提示框，用于显示重要的信息。
+      </AlertDescription>
+    </Alert>
+    
+    <Alert variant="destructive">
+      <AlertTitle>错误提示</AlertTitle>
+      <AlertDescription>
+        这是一个错误提示框，用于显示错误信息。
+      </AlertDescription>
+    </Alert>
+  </div>
+  
+  <div className="space-y-4">
+    <div className="flex flex-wrap gap-2">
+      <Badge>默认徽章</Badge>
+      <Badge variant="secondary">次要徽章</Badge>
+      <Badge variant="destructive">危险徽章</Badge>
+      <Badge variant="outline">轮廓徽章</Badge>
+    </div>
+  </div>
+  
+  <div className="space-y-4">
+    <div className="space-y-2">
+      <Label>进度条</Label>
+      <Progress value={33} className="w-full" />
+    </div>
+  </div>
+  
+  <div className="space-y-4">
+    <div className="space-y-2">
+      <Label>骨架屏</Label>
+      <div className="space-y-2">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/4" />
+        <Skeleton className="h-4 w-1/2" />
+      </div>
+    </div>
+  </div>
+</div>
+
+## 导航组件
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Breadcrumb, BreadcrumbItem } from "@/components/extensions/breadcrumb/breadcrumb"
+
+<div className="space-y-6 p-4">
+  <div className="space-y-4">
+    <Label>标签页</Label>
+    <Tabs defaultValue="account" className="w-full">
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="account">账户</TabsTrigger>
+        <TabsTrigger value="password">密码</TabsTrigger>
+        <TabsTrigger value="settings">设置</TabsTrigger>
+      </TabsList>
+      <TabsContent value="account" className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="username">用户名</Label>
+          <Input id="username" placeholder="请输入用户名" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="email">邮箱</Label>
+          <Input id="email" type="email" placeholder="请输入邮箱" />
+        </div>
+      </TabsContent>
+      <TabsContent value="password" className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="current">当前密码</Label>
+          <Input id="current" type="password" />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="new">新密码</Label>
+          <Input id="new" type="password" />
+        </div>
+      </TabsContent>
+      <TabsContent value="settings" className="space-y-4">
+        <div className="space-y-2">
+          <Label>通知设置</Label>
+          <div className="flex items-center space-x-2">
+            <Switch id="email-notifications" />
+            <Label htmlFor="email-notifications">邮件通知</Label>
+          </div>
+        </div>
+      </TabsContent>
+    </Tabs>
+  </div>
+  
+  <div className="space-y-4">
+    <Label>面包屑导航</Label>
+    <Breadcrumb 
+      items={[
+        { label: "首页", path: "/" },
+        { label: "文档", path: "/docs" },
+        { label: "组件" }
+      ]} 
+    />
+  </div>
+</div>
+
+## 数据展示组件
+
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+<div className="space-y-6 p-4">
+  <div className="space-y-4">
+    <Label>表格</Label>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>姓名</TableHead>
+          <TableHead>邮箱</TableHead>
+          <TableHead>状态</TableHead>
+          <TableHead>操作</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <TableRow>
+          <TableCell className="font-medium">张三</TableCell>
+          <TableCell>zhangsan@example.com</TableCell>
+          <TableCell><Badge>活跃</Badge></TableCell>
+          <TableCell><Button size="sm">编辑</Button></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="font-medium">李四</TableCell>
+          <TableCell>lisi@example.com</TableCell>
+          <TableCell><Badge variant="secondary">待激活</Badge></TableCell>
+          <TableCell><Button size="sm">编辑</Button></TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell className="font-medium">王五</TableCell>
+          <TableCell>wangwu@example.com</TableCell>
+          <TableCell><Badge variant="destructive">禁用</Badge></TableCell>
+          <TableCell><Button size="sm">编辑</Button></TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
+  </div>
+  
+  <div className="space-y-4">
+    <Label>头像</Label>
+    <div className="flex space-x-4">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>JD</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarFallback>AB</AvatarFallback>
+      </Avatar>
+    </div>
+  </div>
+</div> 

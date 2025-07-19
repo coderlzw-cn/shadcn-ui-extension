@@ -1,0 +1,194 @@
+---
+title: ImageCompare 图片对比
+description: "一个可以滑动对比图片的组件，支持水平和垂直方向的拖拽对比。"
+component: true
+---
+
+# Image Compare
+
+一个可以滑动对比图片的组件，支持鼠标拖拽和触摸滑动来对比两张图片的差异。
+
+## 特性
+
+- 🖱️ 支持鼠标拖拽和触摸滑动
+- 📱 响应式设计，支持移动端
+- 🎯 水平和垂直两种对比方向
+- 🏷️ 可自定义标签显示
+- 📊 实时显示对比位置百分比
+- 🎨 完全可定制的样式
+- 🎭 智能鼠标样式（col-resize/row-resize）
+- ✨ 美观的拖拽线和发光效果
+- ⚡ 高性能拖拽，无延迟体验
+- 🎯 方向性图标，直观指示拖拽方向
+- 🔧 可控制拖拽线显示方式（始终显示或悬停显示）
+
+## 基础用法
+
+```tsx
+import { ImageCompare } from "@/components/extensions/image-compare/image-compare";
+
+export default function Example() {
+  return <ImageCompare beforeImage="/path/to/before.jpg" afterImage="/path/to/after.jpg" beforeLabel="原始图片" afterLabel="处理后" />;
+}
+```
+
+## 示例
+
+
+import {ImageCompare} from "@/components/extensions/image-compare/image-compare";
+
+### 基础水平对比
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&saturation=500&brightness=30&contrast=100&blur=50"
+  beforeLabel="原始图片"
+  afterLabel="处理后"
+/>
+
+### 垂直对比
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&contrast=150&saturation=200&brightness=30&blur=50"
+  beforeLabel="原始"
+  afterLabel="增强"
+  orientation="vertical"
+  className="h-96"
+/>
+
+### 自定义初始位置 (30%)
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&blur=50"
+  beforeLabel="清晰"
+  afterLabel="模糊"
+  defaultPosition={30}
+/>
+
+### 隐藏标签
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop&sepia=100"
+  showLabels={false}
+  showPositionIndicator={false}
+/>
+
+### 悬停显示拖拽线
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&blur=50"
+  beforeLabel="清晰"
+  afterLabel="模糊"
+  showDragArea={false}
+/>
+
+### 自定义样式
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&blur=50"
+  beforeLabel="清晰"
+  afterLabel="模糊"
+  className="h-96 rounded-xl shadow-2xl border-2 border-gray-200"
+/>
+
+### 隐藏位置指示器
+
+<ImageCompare
+  beforeImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop"
+  afterImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop&blur=50"
+  beforeLabel="清晰"
+  afterLabel="模糊"
+  showPositionIndicator={false}
+/>
+
+## API
+
+### ImageCompare Props
+
+| 属性                    | 类型                         | 默认值         | 描述                                   |
+| ----------------------- | ---------------------------- | -------------- | -------------------------------------- |
+| `beforeImage`           | `string`                     | -              | 对比前的图片 URL（必填）               |
+| `afterImage`            | `string`                     | -              | 对比后的图片 URL（必填）               |
+| `beforeLabel`           | `string`                     | `"Before"`     | 左侧/上方标签文本                      |
+| `afterLabel`            | `string`                     | `"After"`      | 右侧/下方标签文本                      |
+| `className`             | `string`                     | -              | 自定义 CSS 类名                        |
+| `defaultPosition`       | `number`                     | `50`           | 初始对比位置（0-100）                  |
+| `showLabels`            | `boolean`                    | `true`         | 是否显示标签                           |
+| `showPositionIndicator` | `boolean`                    | `true`         | 是否显示位置指示器                     |
+| `orientation`           | `"horizontal" \| "vertical"` | `"horizontal"` | 对比方向                               |
+| `showDragArea`          | `boolean`                    | `true`         | 是否始终显示拖拽线（false 为悬停显示） |
+
+## 使用指南
+
+### 水平对比（默认）
+
+水平对比适合展示左右差异，如照片编辑前后的效果：
+
+```tsx
+<ImageCompare beforeImage="/original.jpg" afterImage="/edited.jpg" beforeLabel="原始" afterLabel="编辑后" orientation="horizontal" />
+```
+
+### 垂直对比
+
+垂直对比适合展示上下差异，如滤镜效果。在垂直模式下，标签会自动调整位置：
+
+- Before 标签：左上角
+- After 标签：右下角
+- 位置指示器：左下角
+
+```tsx
+<ImageCompare beforeImage="/original.jpg" afterImage="/filtered.jpg" beforeLabel="无滤镜" afterLabel="有滤镜" orientation="vertical" className="h-96" />
+```
+
+### 自定义初始位置
+
+设置对比滑块的初始位置：
+
+```tsx
+<ImageCompare
+  beforeImage="/before.jpg"
+  afterImage="/after.jpg"
+  defaultPosition={30} // 30% 位置
+/>
+```
+
+### 控制拖拽线显示
+
+控制拖拽线的显示方式：
+
+```tsx
+// 始终显示拖拽线（默认）
+<ImageCompare
+  beforeImage="/before.jpg"
+  afterImage="/after.jpg"
+  showDragArea={true}
+/>
+
+// 悬停时显示拖拽线
+<ImageCompare
+  beforeImage="/before.jpg"
+  afterImage="/after.jpg"
+  showDragArea={false}
+/>
+```
+
+### 隐藏标签和指示器
+
+如果不需要显示标签或位置指示器，可以隐藏：
+
+```tsx
+<ImageCompare beforeImage="/before.jpg" afterImage="/after.jpg" showLabels={false} showPositionIndicator={false} />
+```
+
+### 自定义样式
+
+通过 `className` 属性自定义组件样式：
+
+```tsx
+<ImageCompare beforeImage="/before.jpg" afterImage="/after.jpg" className="h-80 rounded-xl shadow-2xl border-2 border-gray-200" />
+```

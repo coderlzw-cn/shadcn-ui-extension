@@ -1,0 +1,417 @@
+---
+title: Breadcrumb 面包屑
+description: "一个功能丰富的面包屑导航组件，支持图标、点击事件、下拉菜单等功能。"
+component: true
+---
+
+# Breadcrumb
+
+一个功能丰富的面包屑导航组件，提供图标支持、点击事件、下拉菜单等高级功能，帮助用户了解当前页面在网站中的位置。
+
+## 特性
+
+- 🏠 自动添加首页图标和链接
+- 📱 响应式设计，支持移动端
+- 🎯 支持图标、链接、点击事件
+- 🎨 完全可定制的样式和分隔符
+- ♿ 符合无障碍访问标准
+- 📦 轻量级，无额外依赖
+- 📝 智能文本截断，防止换行
+- 🔧 智能长路径处理，使用下拉菜单显示中间项
+- 📋 下拉菜单支持，长路径时自动显示更多选项
+- ⚡ 高性能，使用 useMemo 优化渲染
+- 🎭 支持深色模式
+- 🔄 支持动态更新和状态管理
+
+## 基础用法
+
+```tsx
+import { Breadcrumb, BreadcrumbItem } from "@/components/extensions/breadcrumb/breadcrumb";
+
+const items: BreadcrumbItem[] = [{ label: "文档", path: "/docs" }, { label: "组件", path: "/docs/components" }, { label: "面包屑" }];
+
+export default function Example() {
+  return <Breadcrumb items={items} />;
+}
+```
+
+## 示例
+
+import {
+  BasicBreadcrumbExample,
+  IconBreadcrumbExample,
+  LongPathBreadcrumbExample,
+  VeryLongPathBreadcrumbExample,
+  ClickableBreadcrumbExample,
+  CustomSeparatorBreadcrumbExample,
+  NoHomeIconBreadcrumbExample,
+  CustomStyleBreadcrumbExample,
+  AnimatedBreadcrumbExample,
+  GradientBreadcrumbExample,
+  LoadingBreadcrumbExample,
+  ErrorBreadcrumbExample,
+  ResponsiveBreadcrumbExample
+} from "@/components/extensions/breadcrumb/example";
+
+### 基础用法
+
+<BasicBreadcrumbExample className="mt-4" />
+
+### 带图标的面包屑
+
+<IconBreadcrumbExample className="mt-4" />
+
+### 长路径处理（下拉菜单）
+
+<LongPathBreadcrumbExample className="mt-4" />
+
+### 超长路径面包屑（展示部分下拉菜单）
+
+<VeryLongPathBreadcrumbExample className="mt-4" />
+
+### 带点击事件的面包屑
+
+<ClickableBreadcrumbExample className="mt-4" />
+
+### 自定义分隔符
+
+<CustomSeparatorBreadcrumbExample className="mt-4" />
+
+### 不显示首页图标
+
+<NoHomeIconBreadcrumbExample className="mt-4" />
+
+### 自定义样式
+
+<CustomStyleBreadcrumbExample className="mt-4" />
+### 响应式设计
+<ResponsiveBreadcrumbExample className="mt-4" />
+
+## API
+
+### Breadcrumb Props
+
+| 属性                 | 类型               | 默认值             | 描述                               |
+| -------------------- | ------------------ | ------------------ | ---------------------------------- |
+| `items`              | `BreadcrumbItem[]` | -                  | 面包屑项目数组（必填）             |
+| `separator`          | `React.ReactNode`  | `<ChevronRight />` | 分隔符组件                         |
+| `maxItems`           | `number`           | `5`                | 最大显示项目数，超过时使用下拉菜单 |
+| `showHomeIcon`       | `boolean`          | `true`             | 是否显示首页图标                   |
+| `homeLabel`          | `string`           | `"首页"`           | 首页标签文本                       |
+| `className`          | `string`           | -                  | 容器自定义 CSS 类名                |
+| `itemClassName`      | `string`           | -                  | 项目自定义 CSS 类名                |
+| `linkClassName`      | `string`           | -                  | 链接自定义 CSS 类名                |
+| `separatorClassName` | `string`           | -                  | 分隔符自定义 CSS 类名              |
+| `responsive`         | `boolean`          | `true`             | 是否启用响应式                     |
+
+### BreadcrumbItem
+
+| 属性      | 类型                             | 描述                     |
+| --------- | -------------------------------- | ------------------------ |
+| `label`   | `string`                         | 显示文本（必填）         |
+| `path`    | `string`                         | 链接地址（可选）         |
+| `icon`    | `React.ReactNode`                | 图标组件（可选）         |
+| `onClick` | `(item: BreadcrumbItem) => void` | 点击事件处理函数（可选） |
+
+## 使用指南
+
+### 基础面包屑
+
+最简单的用法，只需要提供项目数组：
+
+```tsx
+const items: BreadcrumbItem[] = [
+  { label: '文档', path: '/docs' },
+  { label: '组件', path: '/docs/components' },
+  { label: '面包屑' }
+]
+
+<Breadcrumb items={items} />
+```
+
+### 带图标的面包屑
+
+为每个项目添加图标：
+
+```tsx
+import { Folder, FileText, Settings } from 'lucide-react'
+
+const items: BreadcrumbItem[] = [
+  { label: '文档', path: '/docs', icon: <Folder className="h-4 w-4" /> },
+  { label: '组件', path: '/docs/components', icon: <FileText className="h-4 w-4" /> },
+  { label: '面包屑', icon: <Settings className="h-4 w-4" /> }
+]
+
+<Breadcrumb items={items} />
+```
+
+### 长路径处理（下拉菜单）
+
+当项目数量超过 `maxItems` 时，会自动使用下拉菜单显示部分中间项，保留首页和最后一个项目：
+
+```tsx
+const longItems: BreadcrumbItem[] = [
+  { label: '文档', path: '/docs', icon: <BookOpen className="h-4 w-4" /> },
+  { label: '前端开发', path: '/docs/frontend', icon: <Code className="h-4 w-4" /> },
+  { label: 'React', path: '/docs/frontend/react', icon: <Code className="h-4 w-4" /> },
+  { label: '组件库', path: '/docs/frontend/react/components', icon: <FileText className="h-4 w-4" /> },
+  { label: 'UI组件', path: '/docs/frontend/react/components/ui', icon: <FileText className="h-4 w-4" /> },
+  { label: '表单组件', path: '/docs/frontend/react/components/ui/form', icon: <FileText className="h-4 w-4" /> },
+  { label: '输入框', path: '/docs/frontend/react/components/ui/form/input', icon: <FileText className="h-4 w-4" /> },
+]
+
+<Breadcrumb items={longItems} maxItems={4} />
+```
+
+### 下拉菜单功能
+
+下拉菜单会自动显示部分中间的项目，支持：
+
+- 链接导航
+- 点击事件
+- 图标显示
+- 文本截断
+
+下拉菜单的显示逻辑：
+
+- 始终显示首页（第一个项目）
+- 显示部分中间项（根据 `maxItems` 计算）
+- 其余中间项放入下拉菜单
+- 始终显示当前页（最后一个项目）
+
+**计算规则**：
+
+- 可用槽位 = `maxItems` - 2（减去首页和当前页）
+- 可见中间项 = 可用槽位 - 1（留一个位置给下拉菜单）
+- 下拉菜单项 = 剩余的所有中间项
+
+### 自定义分隔符
+
+使用自定义的分隔符：
+
+```tsx
+<Breadcrumb items={items} separator={<span className="text-muted-foreground mx-2">/</span>} />
+```
+
+### 点击事件
+
+支持点击事件处理：
+
+```tsx
+const items: BreadcrumbItem[] = [
+  { label: '数据库', path: '/database', icon: <Database className="h-4 w-4" /> },
+  {
+    label: '用户表',
+    onClick: (item) => console.log("点击了:", item.label),
+    icon: <Users className="h-4 w-4" />
+  },
+  {
+    label: '配置',
+    onClick: (item) => console.log("点击了:", item.label),
+    icon: <Settings className="h-4 w-4" />
+  },
+]
+
+<Breadcrumb items={items} />
+```
+
+### 隐藏首页图标
+
+如果不需要首页图标：
+
+```tsx
+<Breadcrumb items={items} showHomeIcon={false} />
+```
+
+### 自定义样式
+
+通过类名自定义样式：
+
+```tsx
+<Breadcrumb items={items} className="bg-muted p-4 rounded-lg" linkClassName="hover:text-blue-600 font-medium" separatorClassName="text-blue-400" />
+```
+
+## 高级用法
+
+### 动态面包屑
+
+根据路由或状态动态生成面包屑：
+
+```tsx
+import { useRouter } from "next/router";
+import { useMemo } from "react";
+
+function DynamicBreadcrumb() {
+  const router = useRouter();
+
+  const breadcrumbItems = useMemo(() => {
+    const pathSegments = router.asPath.split("/").filter(Boolean);
+
+    return pathSegments.map((segment, index) => {
+      const path = "/" + pathSegments.slice(0, index + 1).join("/");
+      const label = segment.charAt(0).toUpperCase() + segment.slice(1);
+
+      return {
+        label,
+        path: index === pathSegments.length - 1 ? undefined : path
+      };
+    });
+  }, [router.asPath]);
+
+  return <Breadcrumb items={breadcrumbItems} />;
+}
+```
+
+### 与状态管理结合
+
+结合 Redux 或 Zustand 等状态管理库：
+
+```tsx
+import { useSelector } from "react-redux";
+
+function ReduxBreadcrumb() {
+  const currentPath = useSelector((state) => state.navigation.currentPath);
+  const breadcrumbData = useSelector((state) => state.navigation.breadcrumbs);
+
+  return <Breadcrumb items={breadcrumbData} />;
+}
+```
+
+### 面包屑数据转换
+
+将后端数据转换为面包屑格式：
+
+```tsx
+function transformBreadcrumbData(apiData: any[]): BreadcrumbItem[] {
+  return apiData.map((item) => ({
+    label: item.name,
+    path: item.url,
+    icon: item.icon ? <item.icon className="h-4 w-4" /> : undefined
+  }));
+}
+
+function ApiBreadcrumb({ data }: { data: any[] }) {
+  const items = useMemo(() => transformBreadcrumbData(data), [data]);
+  return <Breadcrumb items={items} />;
+}
+```
+
+### 条件渲染
+
+根据条件显示不同的面包屑：
+
+```tsx
+function ConditionalBreadcrumb({ user, isAdmin }: { user: any; isAdmin: boolean }) {
+  const items = useMemo(() => {
+    if (isAdmin) {
+      return [{ label: "管理后台", path: "/admin" }, { label: "用户管理", path: "/admin/users" }, { label: user.name }];
+    }
+
+    return [{ label: "个人中心", path: "/profile" }, { label: user.name }];
+  }, [user, isAdmin]);
+
+  return <Breadcrumb items={items} />;
+}
+```
+
+## 主题定制
+
+### CSS 变量定制
+
+通过 CSS 变量自定义主题：
+
+```css
+:root {
+  --breadcrumb-bg: #f8f9fa;
+  --breadcrumb-border: #e9ecef;
+  --breadcrumb-text: #6c757d;
+  --breadcrumb-link: #007bff;
+  --breadcrumb-link-hover: #0056b3;
+  --breadcrumb-separator: #adb5bd;
+}
+
+.dark {
+  --breadcrumb-bg: #2d3748;
+  --breadcrumb-border: #4a5568;
+  --breadcrumb-text: #a0aec0;
+  --breadcrumb-link: #63b3ed;
+  --breadcrumb-link-hover: #90cdf4;
+  --breadcrumb-separator: #718096;
+}
+```
+
+### 自定义组件样式
+
+创建自定义样式的面包屑组件：
+
+```tsx
+function CustomBreadcrumb({ items, ...props }: BreadcrumbProps) {
+  return (
+    <Breadcrumb
+      {...props}
+      items={items}
+      className="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded-xl shadow-sm"
+      linkClassName="text-blue-700 hover:text-blue-900 font-medium transition-colors"
+      separatorClassName="text-blue-400"
+      itemClassName="text-gray-700 font-semibold"
+    />
+  );
+}
+```
+ 
+
+### 1. 性能优化
+
+- 使用 `useMemo` 缓存面包屑数据
+- 避免在渲染函数中创建新的对象
+- 合理设置 `maxItems` 值
+
+```tsx
+// ✅ 好的做法
+const breadcrumbItems = useMemo(() => {
+  return transformData(rawData);
+}, [rawData]);
+
+// ❌ 避免的做法
+const breadcrumbItems = transformData(rawData); // 每次渲染都会重新计算
+```
+
+### 2. 可访问性
+
+- 确保面包屑有清晰的语义
+- 提供适当的 ARIA 标签
+- 支持键盘导航
+
+```tsx
+<Breadcrumb
+  items={items}
+  className="focus-within:ring-2 focus-within:ring-blue-500"
+  linkClassName="focus:outline-none focus:ring-2 focus:ring-blue-500 rounded"
+/>
+```
+
+### 3. 响应式设计
+
+- 在不同屏幕尺寸下测试
+- 确保文本截断正常工作
+- 验证下拉菜单在移动端的表现
+
+```tsx
+<Breadcrumb items={items} responsive={true} maxItems={window.innerWidth < 768 ? 3 : 5} />
+```
+
+### 4. 错误处理
+
+- 处理空数据情况
+- 验证数据格式
+- 提供降级方案
+
+```tsx
+function SafeBreadcrumb({ items }: { items?: BreadcrumbItem[] }) {
+  if (!items || items.length === 0) {
+    return <div className="text-muted-foreground">暂无导航信息</div>;
+  }
+
+  return <Breadcrumb items={items} />;
+}
+``` 

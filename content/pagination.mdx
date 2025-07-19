@@ -1,0 +1,294 @@
+---
+title: Pagination 分页组件
+description: 一个功能完整、高度可定制的分页组件，支持多种分页模式、自定义文本、无障碍支持和响应式设计。
+---
+
+
+import {
+    CompactPaginationExample,
+    CustomPaginationExample,
+    DisabledPaginationExample,
+    FullPaginationExample,
+    SimplePaginationExample
+} from "@/components/extensions/pagination/example";
+
+{/* # Pagination 分页组件 */}
+
+一个功能完整、高度可定制的分页组件，支持多种分页模式、自定义文本、无障碍支持和响应式设计。组件完全支持亮暗主题适配，并提供完整的键盘导航和屏幕阅读器支持。
+
+## 特性
+
+- 🎨 **主题适配** - 完全支持亮暗主题切换
+- ♿ **无障碍支持** - 完整的 ARIA 标签和键盘导航
+- 📱 **响应式设计** - 适配不同屏幕尺寸
+- 🎯 **多种模式** - 完整、简单、紧凑三种分页模式
+- ⚡ **高性能** - 优化的渲染和交互体验
+- 🔧 **高度可定制** - 丰富的配置选项和自定义文本
+
+## 使用示例
+
+### 完整功能分页
+
+<FullPaginationExample className="mt-4" />
+
+### 简单分页
+
+<SimplePaginationExample className="mt-4" />
+
+### 紧凑分页
+
+<CompactPaginationExample className="mt-4" />
+
+### 自定义配置分页
+
+<CustomPaginationExample className="mt-4" />
+
+### 禁用状态分页
+
+<DisabledPaginationExample className="mt-4" />
+
+## 基础用法
+
+```tsx
+import { Pagination } from "@/components/extensions/pagination/pagination";
+
+function App() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const total = 500; // 总数据条数
+
+  return <Pagination currentPage={currentPage} total={total} pageSize={pageSize} onPageChange={setCurrentPage} onPageSizeChange={setPageSize} />;
+}
+```
+
+## 分页模式
+
+### 完整模式 (Full)
+
+包含所有功能：页码导航、每页条数选择、跳页输入框、总数显示、快速跳转按钮等。
+
+```tsx
+<Pagination
+  variant="full"
+  showTotal={true}
+  showPageSize={true}
+  showJumpTo={true}
+  showQuickJump={true}
+  // ... 其他属性
+/>
+```
+
+### 简单模式 (Simple)
+
+仅显示上一页/下一页按钮和当前页/总页数信息，适合空间有限的场景。
+
+```tsx
+<Pagination
+  variant="simple"
+  // ... 其他属性
+/>
+```
+
+### 紧凑模式 (Compact)
+
+显示页码按钮和导航按钮，在有限空间内提供完整的分页功能。
+
+```tsx
+<Pagination
+  variant="compact"
+  // ... 其他属性
+/>
+```
+
+## 无障碍支持
+
+组件提供了完整的无障碍支持，包括：
+
+- **键盘导航** - 支持 Tab 键导航和 Enter/Space 键操作
+- **屏幕阅读器** - 完整的 ARIA 标签和语义化 HTML
+- **焦点管理** - 清晰的焦点指示器和焦点环
+- **状态反馈** - 实时状态更新和动态内容
+
+```tsx
+<Pagination
+  currentPage={currentPage}
+  total={total}
+  pageSize={pageSize}
+  onPageChange={setCurrentPage}
+  onPageSizeChange={setPageSize}
+  // 自定义无障碍标签
+  texts={{
+    previous: "前往上一页",
+    next: "前往下一页",
+    first: "跳转到第一页",
+    last: "跳转到最后一页"
+  }}
+/>
+```
+
+## API 参考
+
+### PaginationProps
+
+| 属性               | 类型                              | 默认值                     | 描述                     |
+| ------------------ | --------------------------------- | -------------------------- | ------------------------ |
+| `currentPage`      | `number`                          | -                          | 当前页码，从 1 开始      |
+| `total`            | `number`                          | -                          | 总条数（自动计算总页数） |
+| `pageSize`         | `number`                          | -                          | 当前每页条数             |
+| `onPageChange`     | `(page: number) => void`          | -                          | 页码改变回调             |
+| `onPageSizeChange` | `(pageSize: number) => void`      | -                          | 每页条数改变回调         |
+| `variant`          | `'simple' \| 'full' \| 'compact'` | `'full'`                   | 分页格式                 |
+| `pageSizeOptions`  | `number[]`                        | `[10, 20, 30, 40, 50, 70]` | 每页条数选项             |
+| `showPageSize`     | `boolean`                         | `true`                     | 是否显示每页条数选择器   |
+| `showJumpTo`       | `boolean`                         | `true`                     | 是否显示跳页输入框       |
+| `showTotal`        | `boolean`                         | `false`                    | 是否显示总数信息         |
+| `showQuickJump`    | `boolean`                         | `false`                    | 是否显示快速跳转按钮     |
+| `size`             | `'sm' \| 'md' \| 'lg'`            | `'md'`                     | 按钮大小                 |
+| `disabled`         | `boolean`                         | `false`                    | 是否禁用                 |
+| `className`        | `string`                          | -                          | 自定义类名               |
+| `texts`            | `TextsConfig`                     | -                          | 自定义文本配置           |
+
+### TextsConfig
+
+| 属性       | 类型     | 默认值       | 描述             |
+| ---------- | -------- | ------------ | ---------------- |
+| `total`    | `string` | `'共'`       | 总数前缀文本     |
+| `pageSize` | `string` | `'每页行数'` | 每页条数标签     |
+| `jumpTo`   | `string` | `'前往'`     | 跳页标签         |
+| `page`     | `string` | `'页'`       | 页数单位         |
+| `of`       | `string` | `'共'`       | 分隔符           |
+| `items`    | `string` | `'条'`       | 条数单位         |
+| `previous` | `string` | `'上一页'`   | 上一页按钮文本   |
+| `next`     | `string` | `'下一页'`   | 下一页按钮文本   |
+| `first`    | `string` | `'第一页'`   | 第一页按钮文本   |
+| `last`     | `string` | `'最后一页'` | 最后一页按钮文本 |
+| `ellipsis` | `string` | `'更多页面'` | 省略号按钮文本   |
+
+## 最佳实践
+
+### 1. 数据获取集成
+
+```tsx
+function DataTable() {
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = useCallback(async (page: number, size: number) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/data?page=${page}&size=${size}`);
+      const result = await response.json();
+      setData(result.data);
+      setTotal(result.total);
+    } catch (error) {
+      console.error("Failed to fetch data:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData(currentPage, pageSize);
+  }, [currentPage, pageSize, fetchData]);
+
+  return (
+    <div>
+      {/* 数据表格 */}
+      <Pagination
+        currentPage={currentPage}
+        total={total}
+        pageSize={pageSize}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={setPageSize}
+        disabled={loading}
+        showTotal={true}
+        showPageSize={true}
+        showJumpTo={true}
+      />
+    </div>
+  );
+}
+```
+
+### 2. 响应式配置
+
+```tsx
+import { useMediaQuery } from "@/hooks/use-mobile";
+
+function ResponsivePagination() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
+  return (
+    <Pagination
+      currentPage={currentPage}
+      total={total}
+      pageSize={pageSize}
+      onPageChange={setCurrentPage}
+      onPageSizeChange={setPageSize}
+      variant={isMobile ? "simple" : "full"}
+      showPageSize={!isMobile}
+      showJumpTo={!isMobile}
+      showQuickJump={!isMobile}
+      size={isMobile ? "sm" : "md"}
+    />
+  );
+}
+```
+
+### 3. 自定义文本和样式
+
+```tsx
+function CustomPagination() {
+  return (
+    <Pagination
+      currentPage={currentPage}
+      total={total}
+      pageSize={pageSize}
+      onPageChange={setCurrentPage}
+      onPageSizeChange={setPageSize}
+      texts={{
+        total: "总计",
+        pageSize: "每页显示",
+        jumpTo: "跳转到",
+        page: "页",
+        items: "项",
+        previous: "上一页",
+        next: "下一页",
+        first: "首页",
+        last: "末页"
+      }}
+      className="my-4"
+      size="lg"
+    />
+  );
+}
+```
+
+### 4. 无障碍优化
+
+```tsx
+function AccessiblePagination() {
+  return (
+    <Pagination
+      currentPage={currentPage}
+      total={total}
+      pageSize={pageSize}
+      onPageChange={setCurrentPage}
+      onPageSizeChange={setPageSize}
+      // 提供更详细的屏幕阅读器信息
+      texts={{
+        previous: "前往上一页，当前第1页",
+        next: "前往下一页，当前第1页",
+        first: "跳转到第一页",
+        last: "跳转到最后一页，共10页"
+      }}
+      showTotal={true}
+      showPageSize={true}
+      showJumpTo={true}
+    />
+  );
+}
+```

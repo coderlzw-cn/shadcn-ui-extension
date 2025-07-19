@@ -1,0 +1,335 @@
+---
+title: 快速开始
+description: "快速上手组件库，开始构建您的应用"
+---
+
+# 🚀 快速开始
+
+本指南将帮助您快速上手组件库，在几分钟内开始构建您的应用。
+
+## 📋 前置要求
+
+在开始之前，请确保您的开发环境满足以下要求：
+
+- **Node.js** 18.0 或更高版本
+- **npm** 或 **pnpm** 或 **yarn** 包管理器
+- 基本的 **React** 和 **TypeScript** 知识
+
+## 🛠️ 安装
+
+### 1. 创建项目
+
+如果您还没有 React 项目，可以使用以下命令创建一个：
+
+```bash
+# 使用 Next.js (推荐)
+npx create-next-app@latest my-app --typescript --tailwind --eslint
+
+# 或使用 Vite
+npm create vite@latest my-app -- --template react-ts
+```
+
+### 2. 安装依赖
+
+在项目根目录下运行以下命令安装必要的依赖：
+
+```bash
+npm install @radix-ui/react-accordion @radix-ui/react-alert-dialog @radix-ui/react-aspect-ratio @radix-ui/react-avatar @radix-ui/react-checkbox @radix-ui/react-collapsible @radix-ui/react-context-menu @radix-ui/react-dialog @radix-ui/react-dropdown-menu @radix-ui/react-hover-card @radix-ui/react-label @radix-ui/react-menubar @radix-ui/react-navigation-menu @radix-ui/react-popover @radix-ui/react-progress @radix-ui/react-radio-group @radix-ui/react-scroll-area @radix-ui/react-select @radix-ui/react-separator @radix-ui/react-slider @radix-ui/react-slot @radix-ui/react-switch @radix-ui/react-tabs @radix-ui/react-toggle @radix-ui/react-toggle-group @radix-ui/react-tooltip lucide-react class-variance-authority clsx tailwind-merge
+```
+
+### 3. 配置 Tailwind CSS
+
+确保您的 `tailwind.config.js` 文件包含以下配置：
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{ts,tsx}',
+    './components/**/*.{ts,tsx}',
+    './app/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx}',
+  ],
+  prefix: "",
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+}
+```
+
+### 4. 配置 CSS 变量
+
+在您的全局 CSS 文件中添加以下 CSS 变量：
+
+```css
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+```
+
+### 5. 创建工具函数
+
+创建 `lib/utils.ts` 文件：
+
+```ts
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+```
+
+## 🎯 第一个组件
+
+现在让我们创建一个简单的示例来验证安装是否正确：
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+export default function Home() {
+  return (
+    <div className="min-h-screen bg-background p-8">
+      <div className="max-w-md mx-auto">
+        <Card>
+          <CardHeader>
+            <CardTitle>欢迎使用组件库</CardTitle>
+            <CardDescription>
+              这是一个简单的示例，展示如何使用组件库中的组件。
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              如果您能看到这个卡片和按钮，说明安装成功了！
+            </p>
+            <div className="flex gap-2">
+              <Button>主要按钮</Button>
+              <Button variant="secondary">次要按钮</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  )
+}
+```
+
+## 🔧 添加更多组件
+
+### 基础组件
+
+基础组件位于 `components/ui/` 目录下，您可以直接导入使用：
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+```
+
+### 扩展组件
+
+扩展组件位于 `components/extensions/` 目录下，提供更高级的功能：
+
+```tsx
+import { Breadcrumb, BreadcrumbItem } from "@/components/extensions/breadcrumb/breadcrumb"
+import { Pagination } from "@/components/extensions/pagination/pagination"
+```
+
+## 🎨 主题定制
+
+### 自定义颜色
+
+您可以通过修改 CSS 变量来自定义主题颜色：
+
+```css
+:root {
+  --primary: 220 14% 96%; /* 自定义主色调 */
+  --primary-foreground: 220 9% 46%;
+}
+```
+
+### 自定义组件样式
+
+使用 `cn` 工具函数组合样式：
+
+```tsx
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+
+<Button className={cn(
+  "bg-blue-500 hover:bg-blue-600",
+  "text-white font-bold"
+)}>
+  自定义按钮
+</Button>
+```
+
+## 📱 响应式设计
+
+组件库完全支持响应式设计，使用 Tailwind CSS 的响应式前缀：
+
+```tsx
+<Card className="w-full md:w-1/2 lg:w-1/3">
+  <CardContent className="p-4 md:p-6">
+    <h3 className="text-lg md:text-xl font-semibold">响应式标题</h3>
+    <p className="text-sm md:text-base">响应式内容</p>
+  </CardContent>
+</Card>
+```
+
+## ♿ 无障碍访问
+
+所有组件都内置了无障碍访问支持：
+
+```tsx
+<Button aria-label="提交表单">
+  提交
+</Button>
+
+<Input 
+  aria-describedby="email-help"
+  aria-required="true"
+/>
+<div id="email-help">请输入有效的邮箱地址</div>
+```
+
+## 🔍 下一步
+
+- 查看 [组件展示](/components-showcase) 页面了解所有可用组件
+- 阅读各个组件的详细文档
+- 探索 [扩展组件](/breadcrumb) 的高级功能
+- 查看 [最佳实践](/index#最佳实践) 了解开发建议
+
+## 🆘 遇到问题？
+
+如果您在安装或使用过程中遇到问题：
+
+1. 检查 [常见问题](/index#常见问题) 页面
+2. 确保所有依赖版本兼容
+3. 查看控制台错误信息
+4. 在 GitHub 上提交 Issue
+
+---
+
+<div className="text-center text-muted-foreground mt-8">
+  <p>🎉 恭喜！您已经成功安装了组件库。</p>
+  <p className="text-sm">现在开始构建您的应用吧！</p>
+</div> 
